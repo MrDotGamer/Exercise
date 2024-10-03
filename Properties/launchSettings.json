@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Danske": {
+      "commandName": "Project",
+      "commandLineArgs": "eur/usd ,2"
+    }
+  }
+}
