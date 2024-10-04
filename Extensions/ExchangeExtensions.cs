@@ -1,76 +1,50 @@
 using Exchange.Exceptions;
-using Exchange.Utilities;
-using System.Text.RegularExpressions;
+using Exchange.Services;
 
 namespace Exchange.Extensions
 {
     public static class ExchangeExtensions
     {
-        public static string[] CheckArgumentsForExchangeService(this string[] args)
+        private static readonly CurrencyAmountArgsValidator Validator = new();
+        private static readonly CurrencyAlphabeticCountryCodeValidator AlphabeticCountryCodeValidator = new();
+        private static readonly ArgumentsValidator ArgumentsValidator = new();
+        private static readonly CurrencyCountryCodeValidator CurrencyCountryCodeValidator = new(new XmlCountryCodeService());
+        public static string[] TryParseAlphabeticalCountryCodeArgument(this string[] args)
         {
-            args.IsValidArgumentCount();
-            var updatedArgs = args.GetCountriesAlfabeticCode();
-            updatedArgs.AreExistingCountryCodes();
-            updatedArgs.TryParseCurrency();
-
-            return updatedArgs;
+            var result = AlphabeticCountryCodeValidator.Validate(args);
+            if (!result.IsValid)
+            {
+                throw new AlphabeticCountryCodeValidationException(result.Errors);
+            }
+            return [args[0][..3].ToUpper(), args[0][4..7].ToUpper(), args[1]];
         }
 
-        private static void IsValidArgumentCount(this string[] args)
+        public static void ValidateArguments(this string[] args)
         {
-            if (args.Length != 2)
+            var result = ArgumentsValidator.Validate(args);
+            if (!result.IsValid)
             {
-                throw new ArgumentCountException("Exactly 2 arguments are required, command example: xxx/yyy amount");
+                throw new ValidationException(result.Errors);
             }
         }
-
-        private static void TryParseCurrency(this string[] args)
+        public static void TryParseCurrencyArguments(this string[] args)
         {
-            const string pattern = @"^(\d+([,.]\d{0,2})?|[,.]\d{1,2})$";
-            if (!Regex.IsMatch(args[2], pattern))
+            var result = Validator.Validate(args);
+            if (!result.IsValid)
             {
-                throw new BadMoneyFormatException("Money format is not valid");
+                throw new ParseCurrencyArgumentsException(result.Errors);
             }
+
             args[2] = args[2].Replace(",", ".");
         }
 
-        private static void AreExistingCountryCodes(this string[] args)
+        public static void ValidateCurrencyCountryCodeArguments(this string[] args)
         {
-            if (!IsCountryCodeExist(args[..2]))
+            var result = CurrencyCountryCodeValidator.Validate(args);
+            if (!result.IsValid)
             {
-                throw new CountryCodeDoesNotExistException("Please check if the input alphabetic country codes exist or are available");
+                throw new ValidateCurrencyCountryCodeArgumentsException(result.Errors);
             }
-        }
-
-        private static bool IsCountryCodeExist(string[] codes)
-        {
-            var currencySet = XmlHelper.LoadAvailableCurrenciesFromXml();
-            return currencySet.IsSupersetOf(codes);
-        }
-
-        private static string[] GetCountriesAlfabeticCode(this string[] args)
-        {
-            if (!TryParseCurrencyPair(args[0], out string[] exchange))
-            {
-                throw new AlphabeticCountryCodesException("Alphabetic country codes must contain 3 characters separated by '/' (e.g., 'xxx/yyy')");
-            }
-            exchange[2] = args[1];
-            return exchange;
-        }
-
-        private static bool TryParseCurrencyPair(string input, out string[] parsedParameters)
-        {
-            const string pattern = @"^([a-zA-Z]{3})/([a-zA-Z]{3})$";
-
-            var match = Regex.Match(input.ToUpper(), pattern, RegexOptions.Compiled);
-
-            if (!match.Success)
-            {
-                throw new TryParseCurrencyPairException("Currency pair is not valid");
-            }
-
-            parsedParameters = [match.Groups[1].Value, match.Groups[2].Value, string.Empty];
-            return true;
         }
     }
 }

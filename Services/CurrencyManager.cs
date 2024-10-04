@@ -1,4 +1,5 @@
-﻿using Exchange.Services.Interfaces;
+﻿using Exchange.Extensions;
+using Exchange.Services.Interfaces;
 using System.Text;
 
 namespace Exchange.Services
@@ -22,6 +23,15 @@ namespace Exchange.Services
             builder.AppendLine($"Exchanger change {args[2]} of {args[0]} to {amount} of {args[1]}");
 
             Console.WriteLine(builder.ToString());
+        }
+
+        public string[] ValidateArguments(string[] args)
+        {
+            args.ValidateArguments();
+            var parsedArgs = args.TryParseAlphabeticalCountryCodeArgument();
+            parsedArgs.TryParseCurrencyArguments();
+            parsedArgs.ValidateCurrencyCountryCodeArguments();
+            return parsedArgs;
         }
     }
 }

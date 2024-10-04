@@ -11,15 +11,15 @@ namespace Exchange
         {
             try
             {
-                var checkedArguments = args.CheckArgumentsForExchangeService();
-
                 var serviceProvider = ExchangeServiceProviderExtension.BuildServiceProvider();
 
                 var currencyService = serviceProvider.GetService<IManager>() ?? throw new CurrencyServiceException("Currency service Not Found");
 
-                var amount = currencyService.Exchange(checkedArguments[0], checkedArguments[1], decimal.Parse(checkedArguments[2]));
+                var validArguments = currencyService.ValidateArguments(args);
 
-                currencyService.PrintResult(checkedArguments, amount);
+                var amount = currencyService.Exchange(validArguments[0], validArguments[1], decimal.Parse(validArguments[2]));
+
+                currencyService.PrintResult(validArguments, amount);
 
             }
             catch (Exception ex)
