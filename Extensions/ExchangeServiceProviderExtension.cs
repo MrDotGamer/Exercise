@@ -1,13 +1,14 @@
+using Exchange.Services;
+using Exchange.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-
-namespace Exchange
+namespace Exchange.Extensions
 {
-    public static class ExchangeServiceProvider
+    public static class ExchangeServiceProviderExtension
     {
         public static ServiceProvider BuildServiceProvider()
         {
             return new ServiceCollection()
-                .AddTransient<IGetAvalableRates, GetAvalableRates>()
+                .AddTransient<IGetAvailableRates, GetAvailableRates>()
                 .AddTransient<IManager, CurrencyManager>()
                 .BuildServiceProvider();
         }
