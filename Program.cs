@@ -1,7 +1,9 @@
-﻿using Exchange.Exceptions;
+﻿using CommandLine;
 using Exchange.Extensions;
+using Exchange.Models;
 using Exchange.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Exchange
 {
@@ -12,15 +14,26 @@ namespace Exchange
             try
             {
                 var serviceProvider = ExchangeServiceProviderExtension.BuildServiceProvider();
+                var strategies = serviceProvider.GetServices<IStrategy>() ?? [];
 
-                var currencyService = serviceProvider.GetService<IManager>() ?? throw new CurrencyServiceException("Currency service Not Found");
+                var context = serviceProvider.GetService<IStrategyContext>() ?? throw new ArgumentNullException("Strategy context not found");
 
-                var validArguments = currencyService.ValidateArguments(args);
+                context.AddStrategies(strategies);
 
-                var amount = currencyService.Exchange(validArguments[0], validArguments[1], decimal.Parse(validArguments[2]));
-
-                currencyService.PrintResult(validArguments, amount);
-
+                Parser.Default.ParseArguments<Options>(args)
+                .WithParsed<Options>(o =>
+                {
+                    var options = o.GetType()
+                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                     .ToDictionary(prop => prop.Name, prop => prop.GetValue(o, null));
+                    foreach (var (key, value) in options)
+                    {
+                        if (value is not null)
+                        {
+                            context.ExecuteStrategy(key, args);
+                        }
+                    }
+                });
             }
             catch (Exception ex)
             {

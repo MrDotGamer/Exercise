@@ -11,6 +11,8 @@ namespace Exchange.Extensions
                 .AddTransient<IGetAvailableRates, GetAvailableRates>()
                 .AddTransient<IManager, CurrencyManager>()
                 .AddTransient<IXmlService, XmlCountryCodeService>()
+                .AddTransient<IStrategy, ExchangeStrategy>()
+                .AddTransient<IStrategyContext, ExchangeStrategyContext>()
                 .BuildServiceProvider();
         }
     }
