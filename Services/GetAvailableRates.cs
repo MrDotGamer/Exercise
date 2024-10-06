@@ -1,4 +1,6 @@
-﻿namespace Exchange.Services
+﻿using Exchange.Services.Interfaces;
+
+namespace Exchange.Services
 {
     public class GetAvailableRates : IGetAvailableRates
     {

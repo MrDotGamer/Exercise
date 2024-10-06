@@ -1,9 +1,6 @@
 ﻿namespace Exchange.Exceptions
 {
-    public class CurrencyServiceException : Exception
+    public class CurrencyServiceException(string message) : Exception(message)
     {
-        public CurrencyServiceException(string message) : base(message)
-        {
-        }
     }
 }

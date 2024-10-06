@@ -1,12 +1,13 @@
-﻿using Exchange.Extensions;
+﻿using Exchange.Handlers;
 using Exchange.Services.Interfaces;
 using System.Text;
 
 namespace Exchange.Services
 {
-    public class CurrencyManager(IGetAvailableRates getAvailableRates) : IManager
+    public class CurrencyManager(IGetAvailableRates getAvailableRates, IXmlService xmlService) : IManager
     {
         private readonly IGetAvailableRates _getAvailableRates = getAvailableRates;
+        private readonly IXmlService _xmlService = xmlService;
 
         public decimal Exchange(string currencyFrom, string currencyTo, decimal amount)
         {
@@ -27,11 +28,12 @@ namespace Exchange.Services
 
         public string[] ValidateArguments(string[] args)
         {
-            args.ValidateArguments();
-            var parsedArgs = args.TryParseAlphabeticalCountryCodeArgument();
-            parsedArgs.TryParseCurrencyArguments();
-            parsedArgs.ValidateCurrencyCountryCodeArguments();
-            return parsedArgs;
+            var handler = new ValidateArgumentsHandler();
+            handler.SetNext(new AlphabeticalCountryCodeHandler())
+                   .SetNext(new CurrencyArgumentsHandler())
+                   .SetNext(new CountryCodeHandler(_xmlService));
+
+            return handler.Handle(args);
         }
     }
 }

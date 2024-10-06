@@ -1,4 +1,7 @@
-public interface IGetAvailableRates
+namespace Exchange.Services.Interfaces
 {
-    Dictionary<string, decimal> GetRates();
+    public interface IGetAvailableRates
+    {
+        Dictionary<string, decimal> GetRates();
+    }
 }
