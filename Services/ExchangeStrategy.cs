@@ -2,11 +2,23 @@
 
 namespace Exchange.Services
 {
+    /// <summary>
+    /// Represents an exchange strategy.
+    /// </summary>
     public class ExchangeStrategy(IManager manager) : IStrategy
     {
+        /// <summary>
+        /// Gets the name of the exchange strategy.
+        /// </summary>
         public string Name => "Exchange";
+
         private readonly IManager _manager = manager;
 
+        /// <summary>
+        /// Executes the exchange strategy asynchronously.
+        /// </summary>
+        /// <param name="args">The arguments for the exchange strategy.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task ExecuteAsync(object args)
         {
             if (args is string[] stringArgs)
@@ -21,7 +33,6 @@ namespace Exchange.Services
             {
                 throw new ArgumentException("Invalid arguments");
             }
-
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Exchange.Services
 {
     public class CurrencyCountryCodeValidator : AbstractValidator<string[]>
     {
-        private readonly IXmlService _xmlService;
-        public CurrencyCountryCodeValidator(IXmlService xmlService)
+        private readonly ICheckCountryCodeService _xmlService;
+        public CurrencyCountryCodeValidator(ICheckCountryCodeService xmlService)
         {
             _xmlService = xmlService;
             RuleFor(args => new string[] { args[0], args[1] }).MustAsync(async (args, cancellationToken) => await IsCountryCodeExist(args))

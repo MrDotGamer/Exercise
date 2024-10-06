@@ -4,7 +4,7 @@ using Exchange.Services.Interfaces;
 
 namespace Exchange.Handlers
 {
-    public class CountryCodeHandler(IXmlService xmlService) : ArgumentHandler
+    public class CountryCodeHandler(ICheckCountryCodeService xmlService) : ArgumentHandler
     {
         private readonly CurrencyCountryCodeValidator _currencyCountryCodeValidator = new(xmlService);
         public override async Task<string[]> HandleAsync(string[] args)

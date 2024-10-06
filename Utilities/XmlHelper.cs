@@ -4,6 +4,11 @@ namespace Exchange.Utilities
 {
     public static class XmlHelper
     {
+        /// <summary>
+        /// Loads the available currencies from an XML file.
+        /// </summary>
+        /// <param name="filePath">The path to the XML file.</param>
+        /// <returns>A HashSet containing the available currencies.</returns>
         public static HashSet<string> LoadAvailableCurrenciesFromXml(string filePath)
         {
             XDocument doc = XDocument.Load(filePath);

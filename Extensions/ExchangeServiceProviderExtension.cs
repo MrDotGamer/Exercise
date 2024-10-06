@@ -10,7 +10,7 @@ namespace Exchange.Extensions
             return new ServiceCollection()
                 .AddTransient<IGetAvailableRates, GetAvailableRates>()
                 .AddTransient<IManager, CurrencyManager>()
-                .AddTransient<IXmlService, XmlCountryCodeService>()
+                .AddTransient<ICheckCountryCodeService, XmlCountryCodeService>()
                 .AddTransient<IStrategy, ExchangeStrategy>()
                 .AddTransient<IStrategyContext, ExchangeStrategyContext>()
                 .BuildServiceProvider();
