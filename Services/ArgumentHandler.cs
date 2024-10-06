@@ -12,11 +12,11 @@ namespace Exchange.Services
             return handler;
         }
 
-        public virtual string[] Handle(string[] args)
+        public virtual async Task<string[]> HandleAsync(string[] args)
         {
             if (_nextHandler != null)
             {
-                return _nextHandler.Handle(args);
+                return await _nextHandler.HandleAsync(args);
             }
             return args;
         }

@@ -3,6 +3,6 @@
     public interface IStrategy
     {
         string Name { get; }
-        void Execute(object args);
+        Task ExecuteAsync(object args);
     }
 }

@@ -9,7 +9,7 @@ namespace Exchange
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
@@ -20,8 +20,8 @@ namespace Exchange
 
                 context.AddStrategies(strategies);
 
-                Parser.Default.ParseArguments<Options>(args)
-                .WithParsed<Options>(o =>
+                await Parser.Default.ParseArguments<Options>(args)
+                .WithParsedAsync<Options>(async o =>
                 {
                     var options = o.GetType()
                      .GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -30,7 +30,7 @@ namespace Exchange
                     {
                         if (value is not null)
                         {
-                            context.ExecuteStrategy(key, args);
+                            await context.ExecuteStrategyAsync(key, args);
                         }
                     }
                 });

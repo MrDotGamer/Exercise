@@ -3,6 +3,6 @@
     public interface IStrategyContext
     {
         void AddStrategy(string key, IStrategy strategy);
-        void ExecuteStrategy(string key, object args);
+        Task ExecuteStrategyAsync(string key, object args);
     }
 }

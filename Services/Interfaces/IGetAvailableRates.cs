@@ -2,6 +2,6 @@ namespace Exchange.Services.Interfaces
 {
     public interface IGetAvailableRates
     {
-        Dictionary<string, decimal> GetRates();
+        Task<Dictionary<string, decimal>> GetRatesAsync();
     }
 }

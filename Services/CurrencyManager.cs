@@ -9,15 +9,15 @@ namespace Exchange.Services
         private readonly IGetAvailableRates _getAvailableRates = getAvailableRates;
         private readonly IXmlService _xmlService = xmlService;
 
-        public decimal Exchange(string currencyFrom, string currencyTo, decimal amount)
+        public async Task<decimal> ExchangeAsync(string currencyFrom, string currencyTo, decimal amount)
         {
-            var list = _getAvailableRates.GetRates();
+            var list = await _getAvailableRates.GetRatesAsync();
             var from = list[currencyFrom];
             var to = list[currencyTo];
             return from / to * amount;
         }
 
-        public void PrintResult(string[] args, decimal amount)
+        public async Task PrintResultAsync(string[] args, decimal amount)
         {
             StringBuilder builder = new();
 
@@ -26,14 +26,14 @@ namespace Exchange.Services
             Console.WriteLine(builder.ToString());
         }
 
-        public string[] ValidateArguments(string[] args)
+        public async Task<string[]> ValidateArgumentsAsync(string[] args)
         {
             var handler = new ValidateArgumentsHandler();
             handler.SetNext(new AlphabeticalCountryCodeHandler())
                    .SetNext(new CurrencyArgumentsHandler())
                    .SetNext(new CountryCodeHandler(_xmlService));
 
-            return handler.Handle(args);
+            return await handler.HandleAsync(args);
         }
     }
 }

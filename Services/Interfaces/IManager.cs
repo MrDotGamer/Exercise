@@ -2,8 +2,8 @@ namespace Exchange.Services.Interfaces
 {
     public interface IManager
     {
-        string[] ValidateArguments(string[] args);
-        decimal Exchange(string currencyFrom, string currencyTo, decimal amount);
-        void PrintResult(string[] args, decimal result);
+        Task<string[]> ValidateArgumentsAsync(string[] args);
+        Task<decimal> ExchangeAsync(string currencyFrom, string currencyTo, decimal amount);
+        Task PrintResultAsync(string[] args, decimal result);
     }
 }

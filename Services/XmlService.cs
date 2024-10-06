@@ -12,9 +12,9 @@ namespace Exchange.Services
             filePath = Path.Combine(AppContext.BaseDirectory, ConfigurationManager.AppSettings["AvailableCurrenciesFilePath"]!);
 
         }
-        public bool CheckCountryCode(string[] codes)
+        public async Task<bool> CheckCountryCodeAsync(string[] codes)
         {
-            var currencySet = LoadCountryCodes();
+            var currencySet = await Task.Run(() => LoadCountryCodes());
             return currencySet.IsSupersetOf(codes);
         }
         private HashSet<string> LoadCountryCodes()

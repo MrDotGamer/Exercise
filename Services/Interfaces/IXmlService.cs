@@ -2,6 +2,6 @@
 {
     public interface IXmlService
     {
-        bool CheckCountryCode(string[] codes);
+        Task<bool> CheckCountryCodeAsync(string[] codes);
     }
 }

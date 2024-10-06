@@ -11,11 +11,11 @@ namespace Exchange.Services
             _strategies[key] = strategy;
         }
 
-        public void ExecuteStrategy(string key, object args)
+        public async Task ExecuteStrategyAsync(string key, object args)
         {
             if (_strategies.TryGetValue(key, out var value) && value is not null)
             {
-                value.Execute(args);
+                await value.ExecuteAsync(args);
             }
             else
             {

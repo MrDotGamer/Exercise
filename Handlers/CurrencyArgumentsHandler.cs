@@ -6,7 +6,7 @@ namespace Exchange.Handlers
     public class CurrencyArgumentsHandler() : ArgumentHandler
     {
         private readonly CurrencyAmountArgsValidator _currencyAmountValidator = new();
-        public override string[] Handle(string[] args)
+        public override async Task<string[]> HandleAsync(string[] args)
         {
             var result = _currencyAmountValidator.Validate(args);
             if (!result.IsValid)
@@ -15,7 +15,7 @@ namespace Exchange.Handlers
             }
 
             args[2] = args[2].Replace(",", ".");
-            return base.Handle(args);
+            return await base.HandleAsync(args);
         }
     }
 

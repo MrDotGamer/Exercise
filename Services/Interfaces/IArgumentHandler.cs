@@ -2,7 +2,7 @@ namespace Exchange.Services.Interfaces
 {
     public interface IArgumentHandler
     {
-        string[] Handle(string[] args);
+        Task<string[]> HandleAsync(string[] args);
         IArgumentHandler SetNext(IArgumentHandler handler);
     }
 }

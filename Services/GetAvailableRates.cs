@@ -4,9 +4,9 @@ namespace Exchange.Services
 {
     public class GetAvailableRates : IGetAvailableRates
     {
-        public Dictionary<string, decimal> GetRates()
+        public Task<Dictionary<string, decimal>> GetRatesAsync()
         {
-            return new Dictionary<string, decimal>
+            return Task.FromResult(new Dictionary<string, decimal>
             {
                 { "EUR", 7.4394M },
                 { "USD", 6.6311M },
@@ -16,7 +16,7 @@ namespace Exchange.Services
                 { "CHF", 6.8358M },
                 { "JPY", 0.059740M },
                 { "DKK", 1M }
-            };
+            });
         }
     }
 }

@@ -7,15 +7,15 @@ namespace Exchange.Services
         public string Name => "Exchange";
         private readonly IManager _manager = manager;
 
-        public void Execute(object args)
+        public async Task ExecuteAsync(object args)
         {
             if (args is string[] stringArgs)
             {
-                var validArguments = _manager.ValidateArguments(stringArgs[1..3]);
+                var validArguments = await _manager.ValidateArgumentsAsync(stringArgs[1..3]);
 
-                var amount = _manager.Exchange(validArguments[0], validArguments[1], decimal.Parse(validArguments[2]));
+                var amount = await _manager.ExchangeAsync(validArguments[0], validArguments[1], decimal.Parse(validArguments[2]));
 
-                _manager.PrintResult(validArguments, amount);
+                await _manager.PrintResultAsync(validArguments, amount);
             }
             else
             {
