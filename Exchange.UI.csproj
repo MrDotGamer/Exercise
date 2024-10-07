@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Exchange.Core\Exchange.Core.csproj" />
+    <ProjectReference Include="..\Exchange.Data\Exchange.Data.csproj" />
     <ProjectReference Include="..\Exchange.Services\Exchange.Application.csproj" />
   </ItemGroup>
 

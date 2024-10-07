@@ -1,5 +1,7 @@
 using Exchange.Application.Services;
+using Exchange.Core.Data.Repository;
 using Exchange.Core.Services;
+using Exchange.Data.DataServices;
 using Exchange.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 namespace Exchange.UI.Extensions
