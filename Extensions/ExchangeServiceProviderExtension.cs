@@ -1,14 +1,15 @@
-using Exchange.Services;
+using Exchange.Application.Services;
+using Exchange.Core.Services;
 using Exchange.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-namespace Exchange.Extensions
+namespace Exchange.UI.Extensions
 {
     public static class ExchangeServiceProviderExtension
     {
         public static ServiceProvider BuildServiceProvider()
         {
             return new ServiceCollection()
-                .AddTransient<IGetAvailableRates, GetAvailableRates>()
+                .AddTransient<IGetAvailableRates, GetAvailableRatesHardcoded>()
                 .AddTransient<IManager, CurrencyManager>()
                 .AddTransient<ICheckCountryCodeService, XmlCountryCodeService>()
                 .AddTransient<IStrategy, ExchangeStrategy>()

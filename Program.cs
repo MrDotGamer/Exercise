@@ -1,11 +1,11 @@
 ﻿using CommandLine;
-using Exchange.Extensions;
-using Exchange.Models;
 using Exchange.Services.Interfaces;
+using Exchange.UI.Data.Model;
+using Exchange.UI.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Exchange
+namespace Exchange.UI
 {
     class Program
     {
@@ -21,7 +21,7 @@ namespace Exchange
                 context.AddStrategies(strategies);
 
                 await Parser.Default.ParseArguments<Options>(args)
-                .WithParsedAsync<Options>(async o =>
+                .WithParsedAsync(async o =>
                 {
                     var options = o.GetType()
                      .GetProperties(BindingFlags.Public | BindingFlags.Instance)

@@ -1,6 +1,6 @@
 ﻿using Exchange.Services.Interfaces;
 
-namespace Exchange.Extensions
+namespace Exchange.UI.Extensions
 {
     public static class AddStrategiesExtension
     {

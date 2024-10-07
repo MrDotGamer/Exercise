@@ -15,7 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utilities\" />
+    <ProjectReference Include="..\Exchange.Services\Exchange.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Repo\" />
   </ItemGroup>
 
 </Project>
